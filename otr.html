@@ -1,0 +1,147 @@
+# OTR Copilot
+
+I spent six months as a peer listener with Over The Rainbow, mostly talking to young people over text. I kept finding myself missing things in conversations that I probably would have picked up in person.
+
+**INTS402 Capstone Project | Over The Rainbow (OTR) | January–May 2025**
+
+I volunteered with [Over The Rainbow](https://otrlistens.net/) as a peer listener. Most conversations happened over text, which made some things difficult to read. Someone might end a message with “sia” and I would have to work out whether it was casual frustration or something more serious. Someone else might send several messages at 2am and then disappear for two days. I could read the words, but I didn't always have enough context to understand what was happening around them.
+
+That became the starting point for OTR Copilot. I wanted to build something that could pick up patterns I was likely to miss while leaving the actual conversation between the mentor and the young person alone.
+
+## What I was trying to solve
+
+Text conversations don't give you much of what you normally rely on when talking to someone. There is no tone of voice, facial expression, or pause before an answer.
+
+There was also the language itself. Singaporean young people move between English, Mandarin, Malay, Tamil and Singlish pretty freely. Words such as “sia,” “lah,” “lor,” “walao” and “sian” can change the tone of a message, but standard sentiment analysis generally doesn't know what to do with them.
+
+I also found it difficult to keep track of conversations over time. I might be focused on one person while someone I had spoken to the previous week was showing a change in their usual pattern of communication.
+
+So I focused the first version of the system on four things:
+
+* **Message timing and emotion:** looking at when messages arrived, gaps between replies, changes in emoji use and other patterns over time.
+* **Singapore English:** adding rules for local expressions, sentence-final particles and code-switching.
+* **Response suggestions:** using Gemini 2.5 Flash to suggest possible responses when a mentor wasn't sure how to phrase something.
+* **Patterns across conversations:** looking for things that were difficult to notice across several conversations at once.
+
+## The first version
+
+The first version was technically quite feature-heavy. It had timelines, sentiment graphs, confidence indicators and several different kinds of alerts.
+
+I tested it with OTR mentors and watched them use it.
+
+One tester spent about ten minutes going through the interface before looking at me and saying:
+
+**“This feels cold.”**
+
+That was fair.
+
+I had taken something that was fundamentally about sitting with another person and turned parts of it into graphs, scores and alerts. The system was doing what I had asked it to do, but the way it presented the information made the work feel clinical.
+
+I rebuilt it three times.
+
+## What I left out
+
+I had about three months and no budget, so I couldn't build everything I had initially considered.
+
+### Built
+
+* Message timing and emotion tracking
+* Custom Singapore English sentiment analysis
+* LLM-generated response suggestions
+* Cross-conversation pattern detection
+* Confidence indicators for AI-generated insights
+
+### Left out
+
+* Full integration with OTR's existing platform, because I didn't have the backend access
+* Transformer-based emotion models, which were harder to explain to mentors
+* Predictive crisis detection, because the consequences of getting it wrong were too serious
+* Languages beyond English, because I didn't have the people needed to properly validate the cultural and emotional nuances
+
+One of the more deliberate technical decisions was using rule-based NLP rather than a more sophisticated transformer model for the sentiment analysis.
+
+A mentor could understand something like:
+
+> The system flagged frustration because the message ended in “sia” and contained three skull emojis.
+
+They could then decide whether that interpretation made sense.
+
+A probability score from a black-box model was harder to question. In this setting, I preferred something a mentor could inspect and override.
+
+## Technical details
+
+The app was built with Flutter, with Firebase handling authentication, Firestore and Cloud Functions. Gemini 2.5 Flash generated response suggestions. The Singapore English sentiment analysis used a modified version of VADER together with rules based on linguistic patterns from the Corpus of Singapore English Messages (CoSEM).
+
+Some of the patterns I worked with included:
+
+* Sentence-final particles such as “sia,” “lah” and “lor”
+* Code-switching within messages
+* Local intensifiers such as “confirm plus chop”
+* Repeated words and other forms of emphasis
+* Emoji combinations
+
+The aim wasn't simply to translate Singapore English into standard English. The problem was that the same words can carry different emotional meanings depending on how and where they are used.
+
+### Timeline
+
+* **Mid-March:** Basic authentication and UI
+* **Early April:** First version with pattern recognition and urgency detection
+* **Mid-April:** Two interface rebuilds, refinement of Singapore English detection and mentor feedback
+* **Late April:** Final testing with five OTR mentors
+
+Privacy was also a constraint throughout the project. I minimized stored data, pseudonymized information and made the system explicit about what it could and couldn't do.
+
+## Testing
+
+I tested the final system with five OTR mentors using pre-written conversation scenarios. I watched them use the system and then asked for feedback.
+
+The average rating was 3.4 out of 5.
+
+Some of the feedback was fairly consistent.
+
+### Too much information
+
+> “Initially overwhelming due to the amount of information.”
+
+I had assumed that showing more of what the system found would make it more useful. It mostly made the interface harder to read.
+
+### Cross-conversation patterns
+
+> “Cross-conversation pattern detection was uniquely valuable—something humans struggle with.”
+
+This was probably the strongest part of the system. Looking across conversations was something mentors found genuinely difficult to do themselves.
+
+### Wrong timing
+
+> “Useful at the start, but lost effectiveness as conversations progressed.”
+
+I had designed the system to do most of its analysis at the beginning of a conversation. In practice, mentors needed information at different points as the conversation developed.
+
+### Basic UX still mattered
+
+> “Missing emoji support undermined confidence in advanced features.”
+
+I had spent a lot of time working on Singapore English sentiment analysis while the emoji rendering was still broken. That was a useful reminder that a sophisticated feature doesn't make up for basic things not working properly.
+
+## What I took from it
+
+The technical work was not the hardest part. I could build the sentiment analysis, pattern detection and LLM integration.
+
+The harder part was deciding what the system should actually be doing.
+
+At different points, I was trying to make mentors more efficient, help them notice things they had missed, reduce the amount they had to keep in their heads, and give them suggestions when they weren't sure how to respond. Those goals overlap, but they aren't the same thing.
+
+The “this feels cold” feedback forced me to think about that more carefully.
+
+Peer listening is not just about identifying patterns in messages. A large part of the work is the relationship between two people. A system can help with some of the information around that relationship without becoming the thing the relationship is mediated through.
+
+That affected a lot of the final design. I kept the AI's suggestions visible but optional. I used explanations rather than unexplained scores where possible. I left out predictive crisis detection. And I accepted that some things were better left to the person actually having the conversation.
+
+That was probably the most useful thing I got from the project. Not a particular NLP technique or framework, but a better sense of where a technical solution stops being useful and starts getting in the way.
+
+## Explore the Project
+
+[View on GitHub](https://github.com/wooziecodes/otr-copilot)
+[Watch Demo Video](https://youtu.be/demo-link)
+[Download Full Report (PDF)](./assets/pdf/otr-capstone-report.pdf)
+[← Back to Research](research.html)
