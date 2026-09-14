@@ -1,5 +1,12 @@
 [
   {
+    "title": "On Liberty",
+    "author": "John Stuart Mill",
+    "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1555338584l/385228._SX300_.jpg",
+    "status": "Favorite",
+    "link": "https://www.goodreads.com/review/show/8560011055?utm_medium=api&utm_source=rss"
+  },
+  {
     "title": "Straight Talk- Reflections on Spore politics, economy & society",
     "author": "Raymond Lim",
     "cover": "https://s.gr-assets.com/assets/nophoto/book/50x75-1b903c9eac1b2ba789662c08a0ae41e6.png",
@@ -54,7 +61,7 @@
     "title": "Le Petit Prince",
     "author": "Antoine de Saint-Exup\u00e9ry",
     "cover": "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1324199942l/70720._SX300_.jpg",
-    "status": "Favorite",
+    "status": "Read",
     "review": "antoine managed to turn what i thought was a children's book into something analagous to a victor frankl-like ephiphany of a book \"On ne voit bien qu'avec le c\u0153ur. L'essentiel est invisible pour les yeux\" probably is up there in terms of quotes that really hit you.. As a newly minted member of the labour force and as someone who doesn\u2019t partake in too much fiction, this was a nice respite and a reminder of the value? That fiction has in conferring a \u201cromantic\u201d world view that we sometimes need\u2026 ? -&gt; segue to a book on Goethe that i'm also reading concurrently.the version of the book i had published as a trilingual parallel text in english/french/mandarin so it was also a fun bonus parsing through the translations.. (side note translation has been largely seen as a meaningless trade with AI but it gets kinda interesting seeing the same phrase translated from french to english to mandarin and how there are contextual nuances that shift one's understanding) \u53ea\u6709\u7528\u5fc3\u624d\u80fd\u770b\u6e05\uff0c\u672c\u8d28\u7684\u4e1c\u897f\u773c\u775b\u662f\u770b\u4e0d\u89c1\u7684 vs On ne voit bien qu'avec le c\u0153ur. L'essentiel est invisible pour les yeux \u7528\u5fc3 (y\u00f2ng x\u012bn) was used and its a term i remember learning in school that connatates with and concentrating but the french version treats \"heart\" almost as an organ of perception.. not an linguistic expert but thought c'etait assez \u597d\u5947 :)",
     "link": "https://www.goodreads.com/review/show/8598961256?utm_medium=api&utm_source=rss"
   },
