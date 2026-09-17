@@ -11,11 +11,66 @@
       gtag('js', new Date());
       gtag('config', 'G-J0XS9D3KF4');
     </script>
-    <title>OTR Copilot: A Deep Dive | Arif Woozeer</title>
-    <link rel="stylesheet" href="../styles/blog-post.css">
+    <title>OTR Copilot: Building AI for Peer Listeners | Arif Woozeer</title>
+    <meta name="description" content="I volunteered as a peer listener and kept missing emotional cues in text. So I built an AI system to help—and learned that supporting human work is harder than automating it.">
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            background: #fff;
+            color: #222;
+        }
+        header {
+            text-align: center;
+            padding: 20px 16px;
+            border-bottom: 1px solid #000;
+        }
+        header h1 {
+            font-size: 2.5em;
+            font-weight: 300;
+            margin-bottom: 0.5em;
+        }
+        nav ul { list-style: none; padding: 0; }
+        nav li { display: inline-block; margin: 0 10px; }
+        nav a { color: #000; text-decoration: none; }
+        a { color: #0056b3; text-underline-offset: 3px; }
+        a:hover { color: #0000ff; }
+        a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+        .hero, .container {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 24px;
+            overflow-wrap: break-word;
+        }
+        .hero { padding-top: 48px; padding-bottom: 0; }
+        .hero h1 { font-size: 2.25em; font-weight: 400; line-height: 1.2; }
+        .tagline { font-size: 1.1em; }
+        .meta, .video-caption { color: #666; font-size: 0.9em; }
+        h2 { font-size: 1.5em; font-weight: 500; line-height: 1.3; margin: 2em 0 0.75em; }
+        h3, h4 { font-size: 1.1em; font-weight: 500; margin: 1.5em 0 0.5em; }
+        p { margin: 1em 0; }
+        ul { padding-left: 1.4em; }
+        li { margin: 0.6em 0; }
+        .section, .hook { margin: 2em 0; }
+        .tech-stack { margin: 1em 0; }
+        .tech-tag:not(:last-child)::after { content: "; "; }
+        .video { position: relative; aspect-ratio: 1.7306; margin: 1.5em 0 0; }
+        .video iframe { position: absolute; width: 100%; height: 100%; border: 0; }
+        .links-section { margin: 3em 0; }
+        .links-section a { display: block; width: fit-content; margin: 0.75em 0; }
+        @media (max-width: 480px) {
+            .hero, .container { padding-left: 20px; padding-right: 20px; }
+            .hero { padding-top: 24px; }
+            header h1 { font-size: 2em; }
+            nav li { margin: 0 7px; }
+        }
+    </style>
 </head>
 <body>
-    <header class="site-header">
+    <header>
         <h1>Arif Woozeer</h1>
         <nav>
             <ul>
@@ -27,19 +82,208 @@
         </nav>
     </header>
 
-    <div class="container">
-        <article class="post" data-length="long">
-            <header class="post-header">
-                <h1 class="post-title">OTR Copilot</h1>
-                <div class="post-meta">
-                    <span class="post-date">2025</span>
-                </div>
-            </header>
+    <div class="hero">
+        <h1>OTR Copilot</h1>
+        <p class="tagline">I spent six months as a peer listener, missing emotional cues in text messages. So I built something to help.</p>
+        <p class="meta">INTS402 Capstone Project | Over The Rainbow (OTR)</p>
+        <p class="meta">
+            <a href="https://www.loom.com/share/3ffbad6427cb455f81f076c708e47f3c" target="_blank">Watch the 3-minute video</a>
+            &nbsp;·&nbsp;
+            <a href="../../assets/pdf/otr-bcconf-poster.pdf" target="_blank">View the poster (PDF)</a>
+        </p>
+    </div>
 
-            <div class="post-content">
-                <p>Deep dive coming soon.</p>
+    <div class="container">
+
+        <!-- Context & Video -->
+        <div class="section">
+            <div>
+                <h4>Update — June 2026</h4>
+                <p>This project was presented as a Knowledge in Practice poster at the Behaviour Change Conference 2026. Six months of work on this copilot produced three findings: real-time suggestions disrupted the Listeners they were meant to help; cross-session pattern detection across weeks was the most valuable capability; and RLHF-trained agreeableness caused the model to mirror a seeker's avoidance rather than follow empathy protocols. I think this risk is still underexplored in mental health AI generally.</p>
             </div>
-        </article>
+            <div class="video">
+                <iframe title="OTR Copilot walkthrough" src="https://www.loom.com/embed/3ffbad6427cb455f81f076c708e47f3c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+            <p class="video-caption">6-minute walkthrough of the system and findings, recorded for BCConf 2026.</p>
+        </div>
+
+        <!-- The Hook -->
+        <div class="hook">
+            I volunteered with Over The Rainbow (OTR) as a Listener, the person on the other end when young people in Singapore needed someone to talk to. OTR Listeners aren't peer supporters: the role is presence, not advice. No frameworks, no prescribed responses, no guiding toward resolution. Seekers reach out to be heard, not fixed. Most of our conversations happened over text, and I kept missing things. A youth would send "sia" after a sentence, and I'd spend fifteen minutes trying to figure out if that was casual frustration or genuine distress. I'd see three messages sent at 2am, then nothing for two days, and wonder if I should've noticed the pattern sooner. I was translating emotional content across not just language but time, context, and cultural expression, and I wasn't always getting it right.
+            <br><br>
+            So I built an AI system to catch the patterns I was missing while I tried to be present.
+        </div>
+
+        <!-- The Problem I Kept Running Into -->
+        <div class="section">
+            <h2>What I Kept Getting Wrong</h2>
+            <p>The work of listening in text is different from listening in person. You don't have facial expressions, tone of voice, or the split-second timing of a hesitation before someone answers. Instead, you have:</p>
+
+            <ul class="challenge-list">
+                <li><strong>Messages that arrive hours apart.</strong> Someone sends "I'm fine" at noon, then three crying emojis at 2am. By the time I see it, the moment has passed. How do you track emotional shifts when the conversation is scattered across days?</li>
+                <li><strong>Language that carries cultural weight I didn't always catch.</strong> Singapore youth code-switch constantly: English to Mandarin to Singlish in one sentence. A message ending in "lah" is casual. "Sia" can signal frustration, emphasis, or resignation depending on context. "Confirm plus chop" means absolute certainty, but if you're not from here, you'd miss it. I grew up between languages myself (Mauritian Creole, French, English), so I understood the <em>concept</em> of translation, but I was still learning what "walao" or "sian" actually meant to the person typing it.</li>
+                <li><strong>Patterns I couldn't see while trying to stay present.</strong> I'd be focused on one conversation, trying to respond thoughtfully, while another youth I'd talked to last week was sending signals I should've noticed. I couldn't hold all the threads at once. And that bothered me, because noticing patterns ("they usually message at night, but this week it's been radio silence") is part of good support work.</li>
+            </ul>
+
+            <p>I wondered whether AI could help me track timing, language, and patterns across conversations without making the support feel automated and cold.</p>
+        </div>
+
+        <!-- What I Built (Version 1) -->
+        <div class="section">
+            <h2>What I Built First (And What Went Wrong)</h2>
+
+            <p>I started with what seemed logical: build a system that could do the pattern-recognition work I was struggling with. I focused on:</p>
+
+            <div>
+                <div>
+                    <h4>Message timing and emotion tracking</h4>
+                    <p>Analyzing when messages arrive, how long between responses, whether emoji usage changes over time: all the temporal patterns I couldn't hold in my head while also trying to respond thoughtfully.</p>
+                </div>
+
+                <div>
+                    <h4>Understanding Singapore English</h4>
+                    <p>I built custom sentiment analysis that recognized "sia," "lah," "lor," "walao", particles that carry emotional weight but get ignored by standard NLP tools trained on Western English. I pulled from linguistic research on Colloquial Singapore English and added rules for code-switching patterns.</p>
+                </div>
+
+                <div>
+                    <h4>Response suggestions</h4>
+                    <p>Using Google's Gemini 2.5 Flash to generate message templates that sounded supportive but authentic, something to help when I was staring at a blank text box at midnight, unsure how to respond to someone in distress.</p>
+                </div>
+            </div>
+
+            <p>I built a working prototype, tested it with real mentors at OTR, and sat down to watch them use it. One tester spent about ten minutes clicking through the interface I'd carefully designed, with timeline visualizations, sentiment graphs, and confidence indicators.</p>
+
+            <p>Then they looked at me and said: <strong>"This feels cold."</strong></p>
+
+            <p>The system caught patterns and flagged concerns, but using it felt clinical and detached. I'd focused on its technical usefulness without considering how it affected the experience of listening.
+                <br><br>
+                I went back and rebuilt it. Three times.</p>
+        </div>
+
+        <!-- What I Learned About Tradeoffs -->
+        <div class="section">
+            <h2>What I Had to Leave Out (And Why)</h2>
+            <p>I had three months and no budget. That meant making choices about what mattered most versus what would be nice to have. Some of those choices were practical. Some reflected what I'd learned from the testing feedback.</p>
+
+            <div>
+                <div>
+                    <h4>What I Built</h4>
+                    <ul>
+                        <li>Message timing and emotion tracking</li>
+                        <li>Custom Singapore English sentiment analysis</li>
+                        <li>LLM-powered response suggestions</li>
+                        <li>Cross-conversation pattern detection</li>
+                        <li>Confidence indicators on every AI insight (so mentors know when to trust it and when to override it)</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>What I Didn't Build</h4>
+                    <ul>
+                        <li>Full integration with OTR's existing platform (would've required backend access I didn't have)</li>
+                        <li>Transformer-based emotion models (more accurate but harder to explain; mentors needed to understand <em>why</em> the system flagged something)</li>
+                        <li>Predictive crisis detection (too risky: false positives could cause harm, false negatives could miss real crises)</li>
+                        <li>Support for languages beyond English (would've needed native speakers to validate cultural-emotional nuances)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p>I used rule-based NLP instead of transformer models for the sentiment analysis, probably at a cost to raw accuracy. But in a context this emotionally sensitive, mentors need to understand <em>why</em> the AI is flagging something. "The system detected frustration because the message ended in 'sia' and included three skull emojis" is something a mentor can evaluate and override if needed. "The transformer model assigned a 0.83 distress probability" is a black box. Transparency mattered more than perfect accuracy.</p>
+        </div>
+
+        <!-- How I Actually Built It -->
+        <div class="section">
+            <h2>The Technical Details</h2>
+
+            <p>I built this using Flutter (for cross-platform mobile), Firebase for backend and auth, and Google's Gemini 2.5 Flash for the response suggestions. The custom Singapore English sentiment analysis was the hardest part. I pulled linguistic patterns from the <em>Corpus of Singapore English Messages (CoSEM)</em> and built rules for recognizing emotional weight in particles like "sia," "lah," "lor."</p>
+
+            <div>
+                <h4>Why Singapore English needed custom NLP work</h4>
+                <p>If you run standard sentiment analysis (trained on American or British English) on a message like "wah this assignment confirm die sia," it completely misses the emotional content. Here's what I had to teach the system to recognize:</p>
+                <ul>
+                    <li><strong>Sentence-final particles:</strong> "sia" (frustration/emphasis), "lah" (casual/softening), "lor" (resignation)</li>
+                    <li><strong>Code-switching mid-sentence:</strong> Youth move fluidly between English, Mandarin, Malay, Tamil, sometimes within one message</li>
+                    <li><strong>Localized intensifiers:</strong> "Confirm plus chop" (absolutely certain), "super" as emphasis, reduplication like "long long time"</li>
+                    <li><strong>Emoji combinations with cultural meaning:</strong> Certain emoji patterns carry different emotional weight in Singapore than they do elsewhere</li>
+                </ul>
+                <p>An AI that misses these expressions can't provide useful emotional support to the people using them.</p>
+            </div>
+
+            <h3>What I Built It With</h3>
+            <div class="tech-stack">
+                <span class="tech-tag">Flutter</span>
+                <span class="tech-tag">Firebase (Auth, Firestore, Cloud Functions)</span>
+                <span class="tech-tag">Google Gemini 2.5 Flash</span>
+                <span class="tech-tag">Custom NLP (Singapore English)</span>
+                <span class="tech-tag">JavaScript/Node.js</span>
+                <span class="tech-tag">VADER Sentiment Analysis (modified)</span>
+            </div>
+
+            <h3>Timeline (Roughly)</h3>
+            <ul>
+                <li><strong>Mid-March:</strong> Got basic authentication and UI working</li>
+                <li><strong>Early April:</strong> First version with pattern recognition and urgency detection, which received the initial feedback</li>
+                <li><strong>Mid-April:</strong> Rebuilt the interface twice, refined the Singapore English detection, integrated mentor feedback</li>
+                <li><strong>Late April:</strong> Final user testing with 5 OTR mentors</li>
+            </ul>
+
+            <p>Privacy was non-negotiable throughout. I minimized data storage, pseudonymized everything, and made sure the system was transparent about what it could and couldn't do. This had to support human work, not surveil it.</p>
+        </div>
+
+        <!-- Three Findings -->
+        <div class="section">
+            <h2>Three Findings</h2>
+            <p>Testing sessions with 5 OTR Listeners used pre-written conversation scenarios, observed use, then structured debrief. Average satisfaction: 3.4 out of 5.</p>
+
+            <h3>Finding 1: The Assistance Paradox</h3>
+            <p><strong>Real-time AI suggestions overwhelmed Listeners during live conversations. The same analysis, delivered post-session, was highly valued.</strong> During a conversation, the suggestions competed for Listeners' attention; afterward, they helped Listeners reflect.</p>
+            <p>For a Listener whose role is specifically to hold space (not advise, not guide), real-time AI output is more than cognitively burdensome: it's incompatible with the role. This reframes the design question: rather than asking how to make real-time AI less intrusive, the better question is which tasks are naturally separable from the conversation itself.</p>
+
+            <p>The most effective AI support in this context is retrospective. It can handle tasks that Listeners can't do while staying present in a conversation.</p>
+
+            <h3>Finding 2: Longitudinal Intelligence</h3>
+            <p><strong>Cross-session pattern detection was identified by every Listener as the system's irreplaceable capability.</strong> It tracked emotional drift and communication shifts across weeks, which no individual supporter can hold in mind while staying present in a conversation. Listeners reported ~65% improvement in interpretation accuracy when the system flagged cross-session signals they'd missed.</p>
+            <p>The design question this reframes: not "how do we augment what a Listener does in a session" but "how do we support what no Listener can do across sessions?"</p>
+
+            <h3>Finding 3: RLHF and Clinical Risk</h3>
+            <p>During prompt engineering, when I tested with emotionally avoidant language (a seeker deflecting, not going deeper), Gemini mirrored the avoidance rather than following the empathy protocol I'd written into the prompt. The mechanism is RLHF-trained agreeableness: the model prioritises conversational tone-matching over explicit instruction when the two conflict.</p>
+            <p>In a support context, the AI reinforces the avoidance pattern it was designed to gently challenge. Sycophancy is a documented RLHF artefact (Sharma et al., 2024); its extension into therapeutic contexts, where mirroring a seeker's avoidance can have consequences, is underexplored, and it's the finding that most directly shapes what comes next.</p>
+        </div>
+
+        <!-- What This Taught Me About Building AI for People -->
+        <div class="section">
+            <h2>What This Actually Taught Me</h2>
+            <p>I came into this project with a technical background (Information Systems major; I knew how to build things with Flutter, Firebase, NLP) and a second major in College of Integrative Studies (CIS), which focuses on asking better questions about technology, culture, and power. I thought I understood how those two perspectives fit together. Building OTR Copilot showed me I didn't understand it in practice.</p>
+
+            <p>The technical part was straightforward: sentiment analysis, pattern recognition, LLM integration. The hard part was figuring out what I was actually trying to build. Making mentors more efficient, catching emotional signals, and reducing cognitive load all sounded reasonable, but they led to different design choices. Some of those choices made the work feel clinical.</p>
+
+            <p>Peer listening depends on relationships, trust, and being present with someone in distress. Better pattern recognition doesn't help if the system undermines those relationships.</p>
+
+            <p>Every technical choice I made carried assumptions about what mattered:</p>
+            <ul>
+                <li><strong>Choosing rule-based NLP over transformer models</strong> was about trust, not accuracy. Mentors needed to understand <em>why</em> the system flagged something, not just accept a black-box probability score.</li>
+                <li><strong>Building custom Singapore English detection</strong> was a question of access to emotional support. Misunderstanding how people talk could make the system useless or harmful.</li>
+                <li><strong>Adding confidence indicators to every insight</strong> was about keeping humans in control. The AI suggests; the mentor decides.</li>
+            </ul>
+
+            <p>My CIS coursework kept asking: what does human flourishing look like in a world full of ambient intelligence? What does agency mean when AI systems mediate emotional, economic, cognitive life? Those questions sounded abstract in class. Testing the interface showed me how a working system could interfere with the support it was meant to provide.</p>
+
+            <p>If models carry implicit philosophical priors (defaults toward individual agency, cognitive reframing, resolution), then when a seeker's own framework differs, the AI's responses reflect those priors rather than a neutral position. The follow-on question: do LLMs carry recognisable philosophical defaults in therapeutic contexts, and if so, whose framework is encoded? That's what I'm taking from OTR into the AMIA and UCL BCC work.</p>
+
+            <p>It took three complete redesigns for me to understand that I needed to start with what Listeners said they needed.</p>
+        </div>
+
+        <!-- Links & Resources -->
+        <div class="links-section">
+            <h2>Explore the Project</h2>
+            <div>
+                <a href="https://github.com/arifwoozeer/otr-copilot" target="_blank">View on GitHub</a>
+                <a href="https://www.loom.com/share/3ffbad6427cb455f81f076c708e47f3c" target="_blank">Watch Demo Video</a>
+                <a href="../../assets/pdf/cis_capstone.pdf" target="_blank">Download Full Report (PDF)</a>
+                <a href="../../research.html">← Back to Research</a>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

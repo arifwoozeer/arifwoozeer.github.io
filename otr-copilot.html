@@ -15,334 +15,57 @@
     <meta name="description" content="I volunteered as a peer listener and kept missing emotional cues in text. So I built an AI system to help—and learned that supporting human work is harder than automating it.">
     <style>
         body {
-            font-family: 'Helvetica', 'Arial', sans-serif;
-            line-height: 1.6;
+            font-family: Helvetica, Arial, sans-serif;
+            line-height: 1.7;
             margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-            color: #000000;
-        }
-        .container {
-            width: 80%;
-            max-width: 900px;
-            margin: auto;
-            padding: 20px;
+            background: #fff;
+            color: #222;
         }
         header {
             text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #000000;
+            padding: 20px 16px;
+            border-bottom: 1px solid #000;
         }
-        h1 {
+        header h1 {
             font-size: 2.5em;
+            font-weight: 300;
             margin-bottom: 0.5em;
-            font-weight: 300;
         }
-        nav ul {
-            list-style-type: none;
-            padding: 0;
+        nav ul { list-style: none; padding: 0; }
+        nav li { display: inline-block; margin: 0 10px; }
+        nav a { color: #000; text-decoration: none; }
+        a { color: #0056b3; text-underline-offset: 3px; }
+        a:hover { color: #0000ff; }
+        a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+        .hero, .container {
+            box-sizing: border-box;
+            width: 100%;
+            max-width: 780px;
+            margin: 0 auto;
+            padding: 24px;
+            overflow-wrap: break-word;
         }
-        nav ul li {
-            display: inline;
-            margin: 0 10px;
-        }
-        a {
-            text-decoration: none;
-            color: #000000;
-            transition: color 0.3s ease;
-        }
-        a:hover {
-            color: #0000ff;
-        }
-        .section a {
-            color: #007bff;
-            text-decoration: underline;
-        }
-        .section a:hover {
-            color: #0056b3;
-        }
-        h2, h3, h4 {
-            font-weight: 300;
-        }
-        .hero {
-            text-align: center;
-            padding: 60px 0 30px;
-        }
-        .hero h1 {
-            font-size: 3em;
-            margin-bottom: 0.3em;
-            line-height: 1.2;
-        }
-        .hero .tagline {
-            font-size: 1.3em;
-            color: #666;
-            margin-bottom: 15px;
-        }
-        .hero .meta {
-            font-size: 0.95em;
-            color: #999;
-            margin-top: 10px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 40px 0 50px;
-        }
-        .stat-box {
-            padding: 25px;
-            background: #f9f9f9;
-            border-radius: 5px;
-            text-align: center;
-            border: 1px solid #eee;
-        }
-        .stat-number {
-            font-size: 3.5em;
-            font-weight: 300;
-            color: #007bff;
-            display: block;
-            line-height: 1;
-        }
-        .stat-label {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 10px;
-        }
-        .section {
-            margin: 50px 0;
-        }
-        .section-divider {
-            border-bottom: 1px solid #eee;
-            margin: 60px 0 30px;
-        }
-        .hook {
-            font-size: 1.2em;
-            line-height: 1.7;
-            color: #333;
-            margin: 40px 0;
-            padding: 0 20px;
-        }
-        .challenge-list {
-            list-style: none;
-            padding: 0;
-            margin: 30px 0;
-        }
-        .challenge-list li {
-            padding: 15px 0 15px 50px;
-            position: relative;
-            font-size: 1.05em;
-            line-height: 1.6;
-        }
-        .challenge-list li:before {
-            content: "→";
-            position: absolute;
-            left: 20px;
-            color: #007bff;
-            font-size: 1.3em;
-        }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .feature-card {
-            padding: 25px;
-            background: #fafafa;
-            border-radius: 5px;
-            border: 1px solid #eee;
-        }
-        .feature-card h4 {
-            margin-top: 0;
-            color: #333;
-            font-size: 1.1em;
-        }
-        .feature-card p {
-            margin: 10px 0 0;
-            font-size: 0.95em;
-            line-height: 1.6;
-        }
-        .comparison-box {
-            background: linear-gradient(to bottom, #f8f9fa 50%, #e8f4f8 50%);
-            padding: 40px;
-            border-radius: 5px;
-            margin: 30px 0;
-            position: relative;
-        }
-        .comparison-box:before {
-            content: "↓ OTR Copilot";
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            background: #007bff;
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: 500;
-        }
-        .comparison-half {
-            padding: 20px;
-        }
-        .comparison-half h4 {
-            margin-top: 0;
-            margin-bottom: 15px;
-        }
-        .comparison-half ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .comparison-half li {
-            padding: 8px 0;
-            font-size: 0.95em;
-        }
-        .comparison-half.before li:before {
-            content: "✗ ";
-            color: #dc3545;
-            margin-right: 8px;
-        }
-        .comparison-half.after li:before {
-            content: "✓ ";
-            color: #28a745;
-            margin-right: 8px;
-        }
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .tech-tag {
-            padding: 8px 15px;
-            background: #e9ecef;
-            border-radius: 20px;
-            font-size: 0.9em;
-            color: #495057;
-        }
-        .highlight-box {
-            background: #f4f8ff;
-            padding: 25px;
-            border-left: 4px solid #007bff;
-            margin: 25px 0;
-        }
-        .highlight-box h4 {
-            margin-top: 0;
-            color: #007bff;
-        }
-        .highlight-box p {
-            margin-bottom: 0;
-        }
-        .key-insight {
-            background: #fff9e6;
-            border-left: 4px solid #ffc107;
-            padding: 25px;
-            margin: 30px 0;
-            font-size: 1.05em;
-            line-height: 1.7;
-        }
-        .key-insight .insight-label {
-            font-weight: 600;
-            color: #f57c00;
-            display: block;
-            margin-bottom: 10px;
-        }
-        .scoping-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .scoping-card {
-            padding: 25px;
-            border-radius: 5px;
-            border: 1px solid #eee;
-        }
-        .scoping-card.built {
-            background: #f0f8f0;
-            border-color: #28a745;
-        }
-        .scoping-card.deferred {
-            background: #fff8f0;
-            border-color: #ffc107;
-        }
-        .scoping-card h4 {
-            margin-top: 0;
-        }
-        .scoping-card ul {
-            padding-left: 20px;
-            margin: 10px 0 0;
-        }
-        .scoping-card li {
-            padding: 5px 0;
-            font-size: 0.95em;
-        }
-        .feedback-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .feedback-card {
-            padding: 20px;
-            background: #fafafa;
-            border-radius: 5px;
-            border-left: 3px solid #007bff;
-        }
-        .feedback-card h4 {
-            margin: 0 0 10px;
-            font-size: 1em;
-        }
-        .feedback-card .quote {
-            font-style: italic;
-            color: #555;
-            font-size: 0.9em;
-            margin-bottom: 10px;
-        }
-        .feedback-card .implication {
-            font-size: 0.85em;
-            color: #666;
-        }
-        .links-section {
-            background: #f9f9f9;
-            padding: 30px;
-            border-radius: 5px;
-            text-align: center;
-            margin: 50px 0 40px;
-        }
-        .links-section h2 {
-            margin-top: 0;
-        }
-        .links-section a {
-            display: inline-block;
-            margin: 10px 10px;
-            padding: 12px 25px;
-            background: #007bff;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background 0.3s ease;
-        }
-        .links-section a:hover {
-            background: #0056b3;
-        }
-        @media (max-width: 768px) {
-            .container {
-                width: 90%;
-            }
-            .hero h1 {
-                font-size: 2em;
-            }
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            .scoping-grid {
-                grid-template-columns: 1fr;
-            }
-            .comparison-box {
-                padding: 30px 20px;
-            }
+        .hero { padding-top: 48px; padding-bottom: 0; }
+        .hero h1 { font-size: 2.25em; font-weight: 400; line-height: 1.2; }
+        .tagline { font-size: 1.1em; }
+        .meta, .video-caption { color: #666; font-size: 0.9em; }
+        h2 { font-size: 1.5em; font-weight: 500; line-height: 1.3; margin: 2em 0 0.75em; }
+        h3, h4 { font-size: 1.1em; font-weight: 500; margin: 1.5em 0 0.5em; }
+        p { margin: 1em 0; }
+        ul { padding-left: 1.4em; }
+        li { margin: 0.6em 0; }
+        .section, .hook { margin: 2em 0; }
+        .tech-stack { margin: 1em 0; }
+        .tech-tag:not(:last-child)::after { content: "; "; }
+        .video { position: relative; aspect-ratio: 1.7306; margin: 1.5em 0 0; }
+        .video iframe { position: absolute; width: 100%; height: 100%; border: 0; }
+        .links-section { margin: 3em 0; }
+        .links-section a { display: block; width: fit-content; margin: 0.75em 0; }
+        @media (max-width: 480px) {
+            .hero, .container { padding-left: 20px; padding-right: 20px; }
+            .hero { padding-top: 24px; }
+            header h1 { font-size: 2em; }
+            nav li { margin: 0 7px; }
         }
     </style>
 </head>
@@ -363,35 +86,33 @@
         <h1>OTR Copilot</h1>
         <p class="tagline">I spent six months as a peer listener, missing emotional cues in text messages. So I built something to help.</p>
         <p class="meta">INTS402 Capstone Project | Over The Rainbow (OTR)</p>
-        <p class="meta" style="margin-top: 10px;">
-            <a href="https://www.loom.com/share/3ffbad6427cb455f81f076c708e47f3c" target="_blank" style="color: #007bff;">Watch the 3-minute video</a>
+        <p class="meta">
+            <a href="https://www.loom.com/share/3ffbad6427cb455f81f076c708e47f3c" target="_blank">Watch the 3-minute video</a>
             &nbsp;·&nbsp;
-            <a href="./assets/pdf/otr-bcconf-poster.pdf" target="_blank" style="color: #007bff;">View the poster (PDF)</a>
+            <a href="./assets/pdf/otr-bcconf-poster.pdf" target="_blank">View the poster (PDF)</a>
         </p>
     </div>
 
     <div class="container">
 
         <!-- Context & Video -->
-        <div class="section" style="margin-top: 30px;">
-            <div class="highlight-box" style="margin-bottom: 24px;">
-                <h4 style="margin-top: 0; margin-bottom: 8px; color: #007bff;">Update — June 2026</h4>
-                <p style="margin: 0;">This project was presented as a Knowledge in Practice poster at the Behaviour Change Conference 2026. Six months of work on this copilot produced three findings: real-time suggestions disrupted the Listeners they were meant to help; cross-session pattern detection across weeks turned out to be where AI's value actually lies; and RLHF-trained agreeableness caused the model to mirror a seeker's avoidance rather than follow empathy protocols — a risk I think is still underexplored in mental health AI generally.</p>
+        <div class="section">
+            <div>
+                <h4>Update — June 2026</h4>
+                <p>This project was presented as a Knowledge in Practice poster at the Behaviour Change Conference 2026. Six months of work on this copilot produced three findings: real-time suggestions disrupted the Listeners they were meant to help; cross-session pattern detection across weeks was the most valuable capability; and RLHF-trained agreeableness caused the model to mirror a seeker's avoidance rather than follow empathy protocols. I think this risk is still underexplored in mental health AI generally.</p>
             </div>
-            <div style="position: relative; padding-bottom: 57.78491171749599%; height: 0; border-radius: 5px; overflow: hidden; background: #f5f5f5;">
-                <iframe src="https://www.loom.com/embed/3ffbad6427cb455f81f076c708e47f3c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+            <div class="video">
+                <iframe title="OTR Copilot walkthrough" src="https://www.loom.com/embed/3ffbad6427cb455f81f076c708e47f3c" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             </div>
-            <p style="margin-top: 12px; font-size: 0.9em; color: #666; font-style: italic;">6-minute walkthrough of the system and findings — recorded for BCConf 2026.</p>
+            <p class="video-caption">6-minute walkthrough of the system and findings, recorded for BCConf 2026.</p>
         </div>
 
         <!-- The Hook -->
         <div class="hook">
-            I volunteered with Over The Rainbow (OTR) as a Listener — the person on the other end when young people in Singapore needed someone to talk to. OTR Listeners aren't peer supporters: the role is presence, not advice. No frameworks, no prescribed responses, no guiding toward resolution. Seekers reach out to be heard, not fixed. Most of our conversations happened over text, and I kept missing things. A youth would send "sia" after a sentence, and I'd spend fifteen minutes trying to figure out if that was casual frustration or genuine distress. I'd see three messages sent at 2am, then nothing for two days, and wonder if I should've noticed the pattern sooner. I was translating emotional content across not just language but time, context, and cultural expression—and I wasn't always getting it right.
+            I volunteered with Over The Rainbow (OTR) as a Listener, the person on the other end when young people in Singapore needed someone to talk to. OTR Listeners aren't peer supporters: the role is presence, not advice. No frameworks, no prescribed responses, no guiding toward resolution. Seekers reach out to be heard, not fixed. Most of our conversations happened over text, and I kept missing things. A youth would send "sia" after a sentence, and I'd spend fifteen minutes trying to figure out if that was casual frustration or genuine distress. I'd see three messages sent at 2am, then nothing for two days, and wonder if I should've noticed the pattern sooner. I was translating emotional content across not just language but time, context, and cultural expression, and I wasn't always getting it right.
             <br><br>
-            So I built an AI system to help with the parts I kept getting wrong. To catch the patterns I was missing while I tried to be present. The human work of listening was still the point.
+            So I built an AI system to catch the patterns I was missing while I tried to be present.
         </div>
-
-        <div class="section-divider"></div>
 
         <!-- The Problem I Kept Running Into -->
         <div class="section">
@@ -400,60 +121,53 @@
 
             <ul class="challenge-list">
                 <li><strong>Messages that arrive hours apart.</strong> Someone sends "I'm fine" at noon, then three crying emojis at 2am. By the time I see it, the moment has passed. How do you track emotional shifts when the conversation is scattered across days?</li>
-                <li><strong>Language that carries cultural weight I didn't always catch.</strong> Singapore youth code-switch constantly—English to Mandarin to Singlish in one sentence. A message ending in "lah" is casual. "Sia" can signal frustration, emphasis, or resignation depending on context. "Confirm plus chop" means absolute certainty, but if you're not from here, you'd miss it. I grew up between languages myself (Mauritian Creole, French, English), so I understood the <em>concept</em> of translation—but I was still learning what "walao" or "sian" actually meant to the person typing it.</li>
-                <li><strong>Patterns I couldn't see while trying to stay present.</strong> I'd be focused on one conversation, trying to respond thoughtfully, while another youth I'd talked to last week was sending signals I should've noticed. I couldn't hold all the threads at once. And that bothered me, because noticing patterns—"they usually message at night, but this week it's been radio silence"—is part of good support work.</li>
+                <li><strong>Language that carries cultural weight I didn't always catch.</strong> Singapore youth code-switch constantly: English to Mandarin to Singlish in one sentence. A message ending in "lah" is casual. "Sia" can signal frustration, emphasis, or resignation depending on context. "Confirm plus chop" means absolute certainty, but if you're not from here, you'd miss it. I grew up between languages myself (Mauritian Creole, French, English), so I understood the <em>concept</em> of translation, but I was still learning what "walao" or "sian" actually meant to the person typing it.</li>
+                <li><strong>Patterns I couldn't see while trying to stay present.</strong> I'd be focused on one conversation, trying to respond thoughtfully, while another youth I'd talked to last week was sending signals I should've noticed. I couldn't hold all the threads at once. And that bothered me, because noticing patterns ("they usually message at night, but this week it's been radio silence") is part of good support work.</li>
             </ul>
 
-            <p>I started wondering: could AI help with the parts I was struggling with, without turning this into something automated and cold? Could it catch the timing patterns, the cultural-linguistic cues, the cross-conversation threads—while I focused on the actual human work of being present?</p>
+            <p>I wondered whether AI could help me track timing, language, and patterns across conversations without making the support feel automated and cold.</p>
         </div>
-
-        <div class="section-divider"></div>
 
         <!-- What I Built (Version 1) -->
         <div class="section">
             <h2>What I Built First (And What Went Wrong)</h2>
 
-            <p>I started with what seemed logical: build a system that could do the pattern-recognition work I was struggling with. I focused on four areas:</p>
+            <p>I started with what seemed logical: build a system that could do the pattern-recognition work I was struggling with. I focused on:</p>
 
-            <div class="feature-grid">
-                <div class="feature-card">
+            <div>
+                <div>
                     <h4>Message timing and emotion tracking</h4>
-                    <p>Analyzing when messages arrive, how long between responses, whether emoji usage changes over time—basically, all the temporal patterns I couldn't hold in my head while also trying to respond thoughtfully.</p>
+                    <p>Analyzing when messages arrive, how long between responses, whether emoji usage changes over time: all the temporal patterns I couldn't hold in my head while also trying to respond thoughtfully.</p>
                 </div>
 
-                <div class="feature-card">
+                <div>
                     <h4>Understanding Singapore English</h4>
-                    <p>I built custom sentiment analysis that recognized "sia," "lah," "lor," "walao"—particles that carry emotional weight but get ignored by standard NLP tools trained on Western English. I pulled from linguistic research on Colloquial Singapore English and added rules for code-switching patterns.</p>
+                    <p>I built custom sentiment analysis that recognized "sia," "lah," "lor," "walao", particles that carry emotional weight but get ignored by standard NLP tools trained on Western English. I pulled from linguistic research on Colloquial Singapore English and added rules for code-switching patterns.</p>
                 </div>
 
-                <div class="feature-card">
+                <div>
                     <h4>Response suggestions</h4>
-                    <p>Using Google's Gemini 2.5 Flash to generate message templates that sounded supportive but authentic—something to help when I was staring at a blank text box at midnight, unsure how to respond to someone in distress.</p>
+                    <p>Using Google's Gemini 2.5 Flash to generate message templates that sounded supportive but authentic, something to help when I was staring at a blank text box at midnight, unsure how to respond to someone in distress.</p>
                 </div>
             </div>
 
-            <p>I built a working prototype, tested it with real mentors at OTR, and sat down to watch them use it. One tester spent about ten minutes clicking through the interface I'd carefully designed—timeline visualizations, sentiment graphs, confidence indicators, all the features I thought would be helpful.</p>
+            <p>I built a working prototype, tested it with real mentors at OTR, and sat down to watch them use it. One tester spent about ten minutes clicking through the interface I'd carefully designed, with timeline visualizations, sentiment graphs, and confidence indicators.</p>
 
             <p>Then they looked at me and said: <strong>"This feels cold."</strong></p>
 
-            <div class="key-insight">
-                <span class="insight-label">The moment that changed everything:</span>
-                Three words. "This feels cold." I had built something technically functional—it worked, it caught patterns, it flagged things. But it had turned the emotional, human work of peer listening into something that felt clinical and detached. I'd been so focused on making the AI useful that I forgot the AI was supposed to <em>support</em> a human process, not replace it.
+            <p>The system caught patterns and flagged concerns, but using it felt clinical and detached. I'd focused on its technical usefulness without considering how it affected the experience of listening.
                 <br><br>
-                I went back and rebuilt it. Three times.
-            </div>
+                I went back and rebuilt it. Three times.</p>
         </div>
-
-        <div class="section-divider"></div>
 
         <!-- What I Learned About Tradeoffs -->
         <div class="section">
             <h2>What I Had to Leave Out (And Why)</h2>
-            <p>I had three months and no budget. That meant making choices about what mattered most versus what would be nice to have. Some of those choices were practical. Some reflected what I'd learned from the "this feels cold" feedback.</p>
+            <p>I had three months and no budget. That meant making choices about what mattered most versus what would be nice to have. Some of those choices were practical. Some reflected what I'd learned from the testing feedback.</p>
 
-            <div class="scoping-grid">
-                <div class="scoping-card built">
-                    <h4>✓ What I Built</h4>
+            <div>
+                <div>
+                    <h4>What I Built</h4>
                     <ul>
                         <li>Message timing and emotion tracking</li>
                         <li>Custom Singapore English sentiment analysis</li>
@@ -463,38 +177,36 @@
                     </ul>
                 </div>
 
-                <div class="scoping-card deferred">
-                    <h4>✗ What I Didn't Build</h4>
+                <div>
+                    <h4>What I Didn't Build</h4>
                     <ul>
                         <li>Full integration with OTR's existing platform (would've required backend access I didn't have)</li>
-                        <li>Transformer-based emotion models (more accurate but harder to explain—mentors needed to understand <em>why</em> the system flagged something)</li>
-                        <li>Predictive crisis detection (too risky—false positives could cause harm, false negatives could miss real crises)</li>
+                        <li>Transformer-based emotion models (more accurate but harder to explain; mentors needed to understand <em>why</em> the system flagged something)</li>
+                        <li>Predictive crisis detection (too risky: false positives could cause harm, false negatives could miss real crises)</li>
                         <li>Support for languages beyond English (would've needed native speakers to validate cultural-emotional nuances)</li>
                     </ul>
                 </div>
             </div>
 
-            <p><strong>The most important technical choice I made:</strong> I used rule-based NLP instead of fancy transformer models for the sentiment analysis. That sounds like a downgrade—and in terms of raw accuracy, it probably is. But in a context this emotionally sensitive, mentors need to understand <em>why</em> the AI is flagging something. "The system detected frustration because the message ended in 'sia' and included three skull emojis" is something a mentor can evaluate and override if needed. "The transformer model assigned a 0.83 distress probability" is a black box. Transparency mattered more than perfect accuracy.</p>
+            <p>I used rule-based NLP instead of transformer models for the sentiment analysis, probably at a cost to raw accuracy. But in a context this emotionally sensitive, mentors need to understand <em>why</em> the AI is flagging something. "The system detected frustration because the message ended in 'sia' and included three skull emojis" is something a mentor can evaluate and override if needed. "The transformer model assigned a 0.83 distress probability" is a black box. Transparency mattered more than perfect accuracy.</p>
         </div>
-
-        <div class="section-divider"></div>
 
         <!-- How I Actually Built It -->
         <div class="section">
             <h2>The Technical Details</h2>
 
-            <p>I built this using Flutter (for cross-platform mobile), Firebase for backend and auth, and Google's Gemini 2.5 Flash for the response suggestions. The custom Singapore English sentiment analysis was the hardest part—I pulled linguistic patterns from the <em>Corpus of Singapore English Messages (CoSEM)</em> and built rules for recognizing emotional weight in particles like "sia," "lah," "lor."</p>
+            <p>I built this using Flutter (for cross-platform mobile), Firebase for backend and auth, and Google's Gemini 2.5 Flash for the response suggestions. The custom Singapore English sentiment analysis was the hardest part. I pulled linguistic patterns from the <em>Corpus of Singapore English Messages (CoSEM)</em> and built rules for recognizing emotional weight in particles like "sia," "lah," "lor."</p>
 
-            <div class="highlight-box">
+            <div>
                 <h4>Why Singapore English needed custom NLP work</h4>
                 <p>If you run standard sentiment analysis (trained on American or British English) on a message like "wah this assignment confirm die sia," it completely misses the emotional content. Here's what I had to teach the system to recognize:</p>
                 <ul>
                     <li><strong>Sentence-final particles:</strong> "sia" (frustration/emphasis), "lah" (casual/softening), "lor" (resignation)</li>
-                    <li><strong>Code-switching mid-sentence:</strong> Youth move fluidly between English, Mandarin, Malay, Tamil—sometimes within one message</li>
+                    <li><strong>Code-switching mid-sentence:</strong> Youth move fluidly between English, Mandarin, Malay, Tamil, sometimes within one message</li>
                     <li><strong>Localized intensifiers:</strong> "Confirm plus chop" (absolutely certain), "super" as emphasis, reduplication like "long long time"</li>
                     <li><strong>Emoji combinations with cultural meaning:</strong> Certain emoji patterns carry different emotional weight in Singapore than they do elsewhere</li>
                 </ul>
-                <p>Translation was never really the goal. Language infrastructure shapes who gets emotional access, and an AI that doesn't understand how people actually communicate is useless.</p>
+                <p>An AI that misses these expressions can't provide useful emotional support to the people using them.</p>
             </div>
 
             <h3>What I Built It With</h3>
@@ -510,7 +222,7 @@
             <h3>Timeline (Roughly)</h3>
             <ul>
                 <li><strong>Mid-March:</strong> Got basic authentication and UI working</li>
-                <li><strong>Early April:</strong> First version with pattern recognition and urgency detection—the one that got the "this feels cold" feedback</li>
+                <li><strong>Early April:</strong> First version with pattern recognition and urgency detection, which received the initial feedback</li>
                 <li><strong>Mid-April:</strong> Rebuilt the interface twice, refined the Singapore English detection, integrated mentor feedback</li>
                 <li><strong>Late April:</strong> Final user testing with 5 OTR mentors</li>
             </ul>
@@ -518,68 +230,56 @@
             <p>Privacy was non-negotiable throughout. I minimized data storage, pseudonymized everything, and made sure the system was transparent about what it could and couldn't do. This had to support human work, not surveil it.</p>
         </div>
 
-        <div class="section-divider"></div>
-
         <!-- Three Findings -->
         <div class="section">
             <h2>Three Findings</h2>
-            <p>Testing sessions with 5 OTR Listeners — pre-written conversation scenarios, observed use, then structured debrief. Average satisfaction: 3.4 out of 5. Three things came out clearly enough to name.</p>
+            <p>Testing sessions with 5 OTR Listeners used pre-written conversation scenarios, observed use, then structured debrief. Average satisfaction: 3.4 out of 5.</p>
 
             <h3>Finding 1: The Assistance Paradox</h3>
-            <p><strong>Real-time AI suggestions overwhelmed Listeners during live conversations. The same analysis, delivered post-session, was highly valued.</strong> Temporal framing fundamentally changes the effect: concurrent AI competes with presence; retrospective AI enables reflection.</p>
+            <p><strong>Real-time AI suggestions overwhelmed Listeners during live conversations. The same analysis, delivered post-session, was highly valued.</strong> During a conversation, the suggestions competed for Listeners' attention; afterward, they helped Listeners reflect.</p>
             <p>For a Listener whose role is specifically to hold space (not advise, not guide), real-time AI output is more than cognitively burdensome: it's incompatible with the role. This reframes the design question: rather than asking how to make real-time AI less intrusive, the better question is which tasks are naturally separable from the conversation itself.</p>
 
-            <div class="key-insight">
-                <span class="insight-label">The implication:</span>
-                The most effective AI support in this context is retrospective. Target tasks that are temporally separable from the conversation, where AI offers something the human can't without competing with the work that's actually the point.
-            </div>
+            <p>The most effective AI support in this context is retrospective. It can handle tasks that Listeners can't do while staying present in a conversation.</p>
 
             <h3>Finding 2: Longitudinal Intelligence</h3>
-            <p><strong>Cross-session pattern detection was identified by every Listener as the system's irreplaceable capability.</strong> Emotional drift and communication shifts across weeks — things no individual supporter can hold in mind while staying present in a conversation. Listeners reported ~65% improvement in interpretation accuracy when the system flagged cross-session signals they'd missed.</p>
+            <p><strong>Cross-session pattern detection was identified by every Listener as the system's irreplaceable capability.</strong> It tracked emotional drift and communication shifts across weeks, which no individual supporter can hold in mind while staying present in a conversation. Listeners reported ~65% improvement in interpretation accuracy when the system flagged cross-session signals they'd missed.</p>
             <p>The design question this reframes: not "how do we augment what a Listener does in a session" but "how do we support what no Listener can do across sessions?"</p>
 
             <h3>Finding 3: RLHF and Clinical Risk</h3>
-            <p><strong>An unexpected finding from building the response suggestion feature.</strong> During prompt engineering, when I tested with emotionally avoidant language — a seeker deflecting, not going deeper — Gemini mirrored the avoidance rather than following the empathy protocol I'd written into the prompt. The mechanism is RLHF-trained agreeableness: the model prioritises conversational tone-matching over explicit instruction when the two conflict.</p>
-            <p>In a support context, this is a quiet failure mode: the AI reinforces the avoidance pattern it was designed to gently challenge. Sycophancy is a documented RLHF artefact (Sharma et al., 2024); its extension into therapeutic contexts — where mirroring a seeker's avoidance has real stakes — is underexplored, and it's the finding that most directly shapes what comes next.</p>
+            <p>During prompt engineering, when I tested with emotionally avoidant language (a seeker deflecting, not going deeper), Gemini mirrored the avoidance rather than following the empathy protocol I'd written into the prompt. The mechanism is RLHF-trained agreeableness: the model prioritises conversational tone-matching over explicit instruction when the two conflict.</p>
+            <p>In a support context, the AI reinforces the avoidance pattern it was designed to gently challenge. Sycophancy is a documented RLHF artefact (Sharma et al., 2024); its extension into therapeutic contexts, where mirroring a seeker's avoidance can have consequences, is underexplored, and it's the finding that most directly shapes what comes next.</p>
         </div>
-
-        <div class="section-divider"></div>
 
         <!-- What This Taught Me About Building AI for People -->
         <div class="section">
             <h2>What This Actually Taught Me</h2>
-            <p>I came into this project with a technical background (Information Systems major—I knew how to build things with Flutter, Firebase, NLP) and a second major in College of Integrative Studies (CIS), which focuses on asking better questions about technology, culture, and power. I thought I understood how those two perspectives fit together. Building OTR Copilot showed me I didn't, really—at least not in practice.</p>
+            <p>I came into this project with a technical background (Information Systems major; I knew how to build things with Flutter, Firebase, NLP) and a second major in College of Integrative Studies (CIS), which focuses on asking better questions about technology, culture, and power. I thought I understood how those two perspectives fit together. Building OTR Copilot showed me I didn't understand it in practice.</p>
 
-            <p>The technical part was straightforward: sentiment analysis, pattern recognition, LLM integration. The hard part was figuring out what I was actually trying to build. Was this a tool to make mentors more efficient? Was it about catching emotional signals they were missing? Was it about reducing cognitive load? All of those sounded reasonable, but they led to different design choices—and some of those choices turned the work into something "cold" and clinical.</p>
+            <p>The technical part was straightforward: sentiment analysis, pattern recognition, LLM integration. The hard part was figuring out what I was actually trying to build. Making mentors more efficient, catching emotional signals, and reducing cognitive load all sounded reasonable, but they led to different design choices. Some of those choices made the work feel clinical.</p>
 
-            <p><strong>Building AI that supports human work without replacing it turned out to be less a technical problem than a question about what human work actually is.</strong> Peer listening isn't just pattern recognition (even though patterns matter). It's relationship-building, trust formation, being present with someone in distress. If you get the pattern recognition right but accidentally undermine the relationship-building, you've made things worse, not better.</p>
+            <p>Peer listening depends on relationships, trust, and being present with someone in distress. Better pattern recognition doesn't help if the system undermines those relationships.</p>
 
             <p>Every technical choice I made carried assumptions about what mattered:</p>
             <ul>
                 <li><strong>Choosing rule-based NLP over transformer models</strong> was about trust, not accuracy. Mentors needed to understand <em>why</em> the system flagged something, not just accept a black-box probability score.</li>
-                <li><strong>Building custom Singapore English detection</strong> went beyond localization. It recognized that language infrastructure shapes who gets access to emotional support. If your AI doesn't understand how people actually talk, it's useless (or worse, it's harmful).</li>
-                <li><strong>Adding confidence indicators to every insight</strong> was about keeping humans in control. The AI suggests; the mentor decides. That's the whole point, not a nice-to-have feature.</li>
+                <li><strong>Building custom Singapore English detection</strong> was a question of access to emotional support. Misunderstanding how people talk could make the system useless or harmful.</li>
+                <li><strong>Adding confidence indicators to every insight</strong> was about keeping humans in control. The AI suggests; the mentor decides.</li>
             </ul>
 
-            <p>My CIS coursework kept asking: what does human flourishing look like in a world full of ambient intelligence? What does agency mean when AI systems mediate emotional, economic, cognitive life? Those questions sounded abstract in class. They became very concrete when a mentor looked at my interface and said "this feels cold." That's the moment theory becomes practice—when you realize the AI you built might be technically functional but existentially wrong.</p>
+            <p>My CIS coursework kept asking: what does human flourishing look like in a world full of ambient intelligence? What does agency mean when AI systems mediate emotional, economic, cognitive life? Those questions sounded abstract in class. Testing the interface showed me how a working system could interfere with the support it was meant to provide.</p>
 
-            <p>The RLHF finding points somewhere specific. If models carry implicit philosophical priors (defaults toward individual agency, cognitive reframing, resolution), then in contexts where a seeker's own framework is different, the AI isn't neutral. It's opinionated, silently. The follow-on question: do LLMs carry recognisable philosophical defaults in therapeutic contexts, and if so, whose framework is encoded? That's what I'm taking from OTR into the AMIA and UCL BCC work.</p>
+            <p>If models carry implicit philosophical priors (defaults toward individual agency, cognitive reframing, resolution), then when a seeker's own framework differs, the AI's responses reflect those priors rather than a neutral position. The follow-on question: do LLMs carry recognisable philosophical defaults in therapeutic contexts, and if so, whose framework is encoded? That's what I'm taking from OTR into the AMIA and UCL BCC work.</p>
 
-            <div class="key-insight">
-                <span class="insight-label">The thing I'll carry forward:</span>
-                Technology that supports human work has to be built with an understanding of what that work actually is: what the people doing the work say they need, full stop. That sounds obvious. It's not. It took three complete redesigns for me to really understand it.
-            </div>
+            <p>It took three complete redesigns for me to understand that I needed to start with what Listeners said they needed.</p>
         </div>
-
-        <div class="section-divider"></div>
 
         <!-- Links & Resources -->
         <div class="links-section">
             <h2>Explore the Project</h2>
             <div>
                 <a href="https://github.com/arifwoozeer/otr-copilot" target="_blank">View on GitHub</a>
-                <a href="https://youtu.be/demo-link" target="_blank">Watch Demo Video</a>
-                <a href="./assets/pdf/otr-capstone-report.pdf" target="_blank">Download Full Report (PDF)</a>
+                <a href="https://www.loom.com/share/3ffbad6427cb455f81f076c708e47f3c" target="_blank">Watch Demo Video</a>
+                <a href="./assets/pdf/cis_capstone.pdf" target="_blank">Download Full Report (PDF)</a>
                 <a href="research.html">← Back to Research</a>
             </div>
         </div>
