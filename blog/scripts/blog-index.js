@@ -37,15 +37,6 @@
         return groups;
     }
 
-    // Format date for display
-    function formatDate(dateStr) {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('en-US', {
-            month: 'long',
-            year: 'numeric'
-        });
-    }
-
     // Get post URL (internal or external)
     function getPostUrl(post) {
         if (post.url) {
@@ -71,7 +62,6 @@
             <div class="featured-post">
                 <h4><a href="${url}" ${attrs}>${post.title}</a></h4>
                 ${post.excerpt ? `<p class="featured-excerpt">${post.excerpt}</p>` : ''}
-                <p class="featured-meta">${formatDate(post.date)}</p>
             </div>
         `;
     }
@@ -84,7 +74,6 @@
         return `
             <li>
                 <a href="${url}" ${attrs}>${post.title}</a>
-                <span class="post-meta-inline"> · ${formatDate(post.date)}</span>
             </li>
         `;
     }
