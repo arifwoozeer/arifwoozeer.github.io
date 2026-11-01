@@ -1,4 +1,6 @@
 import json
+from html import escape
+from pathlib import Path
 import re
 import urllib.request
 import xml.etree.ElementTree as ET
@@ -42,7 +44,7 @@ def parse_feed(xml_bytes, status):
         except ValueError:
             rating = 0
 
-        if not rating and not review:
+        if not title or (status != "Currently Reading" and not rating and not review):
             continue
 
         if cover:
@@ -57,6 +59,32 @@ def parse_feed(xml_bytes, status):
             "link": link,
         })
     return books
+
+
+def update_about(books, path=Path("about.html")):
+    current = [book for book in books if book["status"] == "Currently Reading"][:2]
+    if not current:
+        return False
+
+    titles = []
+    for book in current:
+        text = f'<em>{escape(book["title"])}</em>'
+        if book.get("author"):
+            text += f' by {escape(book["author"])}'
+        titles.append(text)
+    sentence = 'I’m currently reading ' + " and ".join(titles) + '.'
+    sentence += ' <a href="reading.html">More on my bookshelf</a>.'
+    start = "<!-- current-reading:start -->"
+    end = "<!-- current-reading:end -->"
+    original = path.read_text(encoding="utf-8")
+    pattern = re.escape(start) + r".*?" + re.escape(end)
+    updated, count = re.subn(pattern, lambda _: start + sentence + end, original, flags=re.DOTALL)
+    if count != 1:
+        raise ValueError("Expected exactly one current-reading region in About page")
+    if updated == original:
+        return False
+    path.write_text(updated, encoding="utf-8")
+    return True
 
 
 def main():
@@ -84,6 +112,8 @@ def main():
         json.dump(result, f, indent=2)
 
     print(f"\nWrote {len(result)} books to books.json")
+    if update_about(result):
+        print("Updated About-page reading sentence")
 
 
 if __name__ == "__main__":
